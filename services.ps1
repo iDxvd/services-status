@@ -8,7 +8,10 @@ Write-Host -ForegroundColor Magenta "discord.gg/sololegends"
 Write-Host ""
 Write-Host ""
 
-$bootTime = (Get-CimInstance -ClassName Win32_OperatingSystem).LastBootUpTime;
+$bootTime = (Get-CimInstance Win32_LogonSession | Where-Object { $_.LogonType -eq 2 } | 
+    Sort-Object StartTime -Descending | 
+    Select-Object -First 1).StartTime
+
 
 
 function Test-ServiceRestart {
